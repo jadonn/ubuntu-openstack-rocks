@@ -41,6 +41,7 @@ parts:
     overlay-packages:
       - sudo
       - openstack-dashboard
+      - python3-designate-dashboard
       - python3-mysqldb
     override-prime: |
       craftctl default
