@@ -1,9 +1,9 @@
-name: horizon
-summary: Openstack horizon
+name: designate-api
+summary: Openstack designate-api
 license: Apache-2.0
 description: |
-  Ubuntu distribution of OpenStack horizon
-version: 2023.1
+  Ubuntu distribution of OpenStack designate-api
+version: "2023.1"
 
 base: ubuntu:22.04
 platforms:
@@ -15,34 +15,34 @@ package-repositories:
     priority: always
 
 services:
-  wsgi-horizon:
+  wsgi-designate-api:
     override: replace
     command: apachectl -D FOREGROUND
 
 parts:
-  horizon-user:
+  designate-user:
     plugin: nil
-    # 42420:42420 for kolla compatibility
+    # 42411:42411 for kolla compatibility
     overlay-script: |
-      groupadd --root $CRAFT_OVERLAY --gid 42420 --system horizon
+      groupadd --root $CRAFT_OVERLAY --gid 42411 --system designate
       useradd \
-        --gid 42420 \
-        --uid 42420 \
+        --gid 42411 \
+        --uid 42411 \
         --no-create-home \
-        --home /var/lib/openstack-dashboard \
+        --home /var/lib/designate \
         --root $CRAFT_OVERLAY \
         --system \
         --shell /bin/false \
-        horizon
+        designate
 
-  horizon:
-    after: [horizon-user]
+  designate-api:
+    after: [designate-user]
     plugin: nil
     overlay-packages:
-      - sudo
-      - openstack-dashboard
-      - python3-designate-dashboard
-      - python3-mysqldb
+    - sudo
+    - designate-api
+    - apache2
+    - libapache2-mod-wsgi-py3
     override-prime: |
       craftctl default
       echo > $CRAFT_PRIME/etc/apache2/ports.conf
