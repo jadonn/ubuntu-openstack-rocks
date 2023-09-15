@@ -74,3 +74,14 @@ parts:
       _1372_project_container_infra_cluster_templates_panel.py
       _2370_admin_container_infra_panel_group.py
       _2371_admin_container_infra_quotas_panel.py" > $CRAFT_PRIME/usr/lib/python3/dist-packages/openstack_dashboard/available/magnum
+
+  horizon-octavia-plugin:
+    after: [horizon]
+    plugin: nil
+    stage-packages:
+      - python3-octavia-dashboard
+    organize:
+      usr/lib/python3/dist-packages/openstack_dashboard/enabled/_1482_project_load_balancer_panel.py: usr/lib/python3/dist-packages/openstack_dashboard/available/_1482_project_load_balancer_panel.py
+    override-prime: |
+      craftctl default
+      echo "_1482_project_load_balancer_panel.py" > $CRAFT_PRIME/usr/lib/python3/dist-packages/openstack_dashboard/available/octavia
