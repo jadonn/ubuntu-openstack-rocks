@@ -12,6 +12,8 @@ package-repositories:
   - type: apt
     cloud: antelope
     priority: always
+    # magnum 16.0.1 needed to work with barbican
+    pocket: proposed
 
 parts:
   magnum-user:
