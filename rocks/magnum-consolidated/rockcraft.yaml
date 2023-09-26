@@ -3,14 +3,14 @@ summary: Openstack magnum-consolidated
 license: Apache-2.0
 description: |
   Ubuntu distribution of OpenStack magnum-consolidated
-version: "2023.1"
+version: "2023.2"
 base: ubuntu:22.04
 platforms:
   amd64:
 
 package-repositories:
   - type: apt
-    cloud: antelope
+    cloud: bobcat
     priority: always
     # magnum 16.0.1 needed to work with barbican
     pocket: proposed

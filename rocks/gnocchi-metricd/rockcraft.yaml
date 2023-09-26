@@ -3,7 +3,7 @@ summary: Openstack gnocchi-metricd
 license: Apache-2.0
 description: |
   Ubuntu distribution of OpenStack gnocchi-metricd
-version: 2023.1
+version: '2023.2'
 
 base: ubuntu:22.04
 platforms:
@@ -11,7 +11,7 @@ platforms:
 
 package-repositories:
   - type: apt
-    cloud: antelope
+    cloud: bobcat
     priority: always
 
 services:

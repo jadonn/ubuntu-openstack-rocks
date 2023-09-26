@@ -3,7 +3,7 @@ summary: Openstack designate-consolidated
 license: Apache-2.0
 description: |
   Ubuntu distribution of OpenStack designate-consolidated
-version: "2023.1"
+version: "2023.2"
 
 base: ubuntu:22.04
 platforms:
@@ -11,7 +11,7 @@ platforms:
 
 package-repositories:
   - type: apt
-    cloud: antelope
+    cloud: bobcat
     priority: always
 
 parts:
@@ -50,4 +50,4 @@ parts:
       # until LP#2033635 is fixed
       sed -i \
         "s/ op.execute('SET foreign_key_checks = 0;')/ return;op.execute('SET foreign_key_checks = 0;')/" \
-        "${CRAFT_OVERLAY}/usr/lib/python3/dist-packages/designate/storage/impl_sqlalchemy/alembic/versions/15b34ff3ecb8_fix_service_charset.py"
+        "${CRAFT_OVERLAY}/usr/lib/python3/dist-packages/designate/storage/sqlalchemy/alembic/versions/15b34ff3ecb8_fix_service_charset.py"
