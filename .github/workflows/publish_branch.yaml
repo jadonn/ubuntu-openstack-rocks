@@ -4,13 +4,18 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: 'Which branch to publish'
+        description: Branch to publish
         required: true
         default: main
         type: choice
         options:
         - main
         - stable/2023.1
+      filter:
+        description: Build/publish only matching ROCKs 
+        required: false
+        default: ''
+        type: string
 
 
 jobs:
@@ -38,31 +43,16 @@ jobs:
               component=$(echo $file | sed 's/rocks\/\(\S.*\)\/rockcraft.yaml/\1/')
               [[ ! -z "$component" ]] && components+=($component)
           done
-          all_rocks=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${components[@]}")
+          all_rocks=$(echo "\"${components[@]}\"" | jq --compact-output '[. | split(" ") | .[] | select(. | match("${{ inputs.filter }}"))]')
           echo "All rocks: $all_rocks"
           echo "rocks=$all_rocks" >> $GITHUB_OUTPUT
-  build:
+  build-and-publish:
     needs: allrocks
     if: ${{ needs.allrocks.outputs.rocks != '[]' }}
     strategy:
+      fail-fast: false
       matrix:
         rock: ${{ fromJson(needs.allrocks.outputs.rocks) }}
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ inputs.branch }}
-      - uses: canonical/craft-actions/rockcraft-pack@main
-        id: rockcraft
-        with:
-          path: rocks/${{ matrix.rock }}
-      - uses: actions/upload-artifact@v3
-        with:
-          name: rock
-          path: ${{ steps.rockcraft.outputs.rock }}
-  publish:
-    needs: build
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
@@ -75,6 +65,10 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: canonical/craft-actions/rockcraft-pack@main
+        id: rockcraft
+        with:
+          path: rocks/${{ matrix.rock }}
       - name: Install skopeo
         run: |
           sudo snap install --devmode --channel edge skopeo
@@ -86,16 +80,14 @@ jobs:
           name: rock
       - name: Import and push to github package
         run: |
-          rock_files=$(ls *.rock)
-          for rock_file in $rock_files; do
-              rockname=$(echo $rock_file | cut -d"_" -f1)
-              image_name="$(yq '.name' rocks/$rockname/rockcraft.yaml)"
-              version="$(yq '.version' rocks/$rockname/rockcraft.yaml)"
-              sudo skopeo \
-                --insecure-policy \
-                copy \
-                oci-archive:"${rock_file}" \
-                docker-daemon:"ghcr.io/canonical/${image_name}:${version}"
-              echo "Publishing rock ${image_name}:${version}"
-              docker push ghcr.io/canonical/${image_name}:${version}
-          done
+          rock_file="${{ steps.rockcraft.outputs.rock }}"
+          rockname=$(echo $rock_file | cut -d"_" -f1)
+          image_name="$(yq '.name' rocks/$rockname/rockcraft.yaml)"
+          version="$(yq '.version' rocks/$rockname/rockcraft.yaml)"
+          sudo skopeo \
+            --insecure-policy \
+            copy \
+            oci-archive:"${rock_file}" \
+            docker-daemon:"ghcr.io/canonical/${image_name}:${version}"
+          echo "Publishing rock ${image_name}:${version}"
+          docker push ghcr.io/canonical/${image_name}:${version}
