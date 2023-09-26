@@ -1,0 +1,101 @@
+name: Publish all ROCKs from selected branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Which branch to publish'
+        required: true
+        default: main
+        type: choice
+        options:
+        - main
+        - stable/2023.1
+
+
+jobs:
+  allrocks:
+    runs-on: ubuntu-latest
+    outputs:
+      rocks: ${{ steps.all-rocks.outputs.rocks }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.branch }}
+      - name: List rockcraft files
+        id: list-files
+        run: |
+          all_rock_files=$(find rocks -name rockcraft.yaml -printf "%p ")
+          echo "All rock files: $all_rock_files"
+          echo "all_rock_files=$all_rock_files" >> $GITHUB_OUTPUT
+      - name: set output
+        id: all-rocks
+        run: |
+          components=()
+          # trim file name to component name
+          for file in ${{ steps.list-files.outputs.all_rock_files }}; do
+              component=$(echo $file | sed 's/rocks\/\(\S.*\)\/rockcraft.yaml/\1/')
+              [[ ! -z "$component" ]] && components+=($component)
+          done
+          all_rocks=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${components[@]}")
+          echo "All rocks: $all_rocks"
+          echo "rocks=$all_rocks" >> $GITHUB_OUTPUT
+  build:
+    needs: allrocks
+    if: ${{ needs.allrocks.outputs.rocks != '[]' }}
+    strategy:
+      matrix:
+        rock: ${{ fromJson(needs.allrocks.outputs.rocks) }}
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.branch }}
+      - uses: canonical/craft-actions/rockcraft-pack@main
+        id: rockcraft
+        with:
+          path: rocks/${{ matrix.rock }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: rock
+          path: ${{ steps.rockcraft.outputs.rock }}
+  publish:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.branch }}
+      - name: Log in to the Container registry
+        uses: docker/login-action@40891eba8c2bcd1309b07ba8b11232f313e86779
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install skopeo
+        run: |
+          sudo snap install --devmode --channel edge skopeo
+      - name: Install yq
+        run: |
+          sudo snap install yq
+      - uses: actions/download-artifact@v3
+        with:
+          name: rock
+      - name: Import and push to github package
+        run: |
+          rock_files=$(ls *.rock)
+          for rock_file in $rock_files; do
+              rockname=$(echo $rock_file | cut -d"_" -f1)
+              image_name="$(yq '.name' rocks/$rockname/rockcraft.yaml)"
+              version="$(yq '.version' rocks/$rockname/rockcraft.yaml)"
+              sudo skopeo \
+                --insecure-policy \
+                copy \
+                oci-archive:"${rock_file}" \
+                docker-daemon:"ghcr.io/canonical/${image_name}:${version}"
+              echo "Publishing rock ${image_name}:${version}"
+              docker push ghcr.io/canonical/${image_name}:${version}
+          done

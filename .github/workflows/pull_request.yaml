@@ -5,4 +5,4 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/build-all.yaml
+    uses: ./.github/workflows/build.yaml
