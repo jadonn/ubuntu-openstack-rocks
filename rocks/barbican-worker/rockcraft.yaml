@@ -3,14 +3,14 @@ summary: Openstack barbican-worker
 license: Apache-2.0
 description: |
   Ubuntu distribution of OpenStack barbican-worker
-version: 2023.1
+version: '2023.2'
 base: ubuntu:22.04
 platforms:
   amd64:
 
 package-repositories:
   - type: apt
-    cloud: antelope
+    cloud: bobcat
     priority: always
 
 services:

@@ -3,7 +3,7 @@ summary: Openstack aodh-consolidated
 license: Apache-2.0
 description: |
   Ubuntu distribution of AODH which can be used for all AODH services
-version: 2023.1
+version: '2023.2'
 
 base: ubuntu:22.04
 platforms:
@@ -11,7 +11,7 @@ platforms:
 
 package-repositories:
   - type: apt
-    cloud: antelope
+    cloud: bobcat
     priority: always
 
 parts:

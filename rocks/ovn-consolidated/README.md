@@ -17,7 +17,7 @@ it will help ensure that all layers of the image are imported
 into docker (this is just the top layer).
 
 ```bash
-> skopeo --insecure-policy copy oci-archive:ovn-consolidated_2023.1_amd64.rock docker-daemon:ovn-consolidated:2023.1
+> skopeo --insecure-policy copy oci-archive:ovn-consolidated_23.09_amd64.rock docker-daemon:ovn-consolidated:23.09
 ```
 
 If you are interested in giving it a go in Microk8s, you can
@@ -25,11 +25,11 @@ export the image from your docker registry and then into the
 microk8s registry:
 
 ```bash
-> docker save ovn-consolidated:2023.1 > ./ovn-consolidated_2023.1.tar
-> microk8s ctr image import ./ovn-consolidated_2023.1.tar
+> docker save ovn-consolidated:23.09 > ./ovn-consolidated_23.09.tar
+> microk8s ctr image import ./ovn-consolidated_23.09.tar
 # Try with sunbeam
-> juju attach-resource ovn-central-k8s ovn-sb-db-server-image=ovn-consolidated:2023.1
-> juju attach-resource ovn-central-k8s ovn-nb-db-server-image=ovn-consolidated:2023.1
-> juju attach-resource ovn-central-k8s ovn-northd-image=ovn-consolidated:2023.1
-> juju attach-resource ovn-relay-k8s ovn-sb-db-server-image=ovn-consolidated:2023.1
+> juju attach-resource ovn-central-k8s ovn-sb-db-server-image=ovn-consolidated:23.09
+> juju attach-resource ovn-central-k8s ovn-nb-db-server-image=ovn-consolidated:23.09
+> juju attach-resource ovn-central-k8s ovn-northd-image=ovn-consolidated:23.09
+> juju attach-resource ovn-relay-k8s ovn-sb-db-server-image=ovn-consolidated:23.09
 ```

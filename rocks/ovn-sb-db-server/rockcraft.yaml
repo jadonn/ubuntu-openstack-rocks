@@ -3,7 +3,7 @@ summary: Openstack ovn-sb-db-server
 license: Apache-2.0
 description: |
   Ubuntu distribution of OpenStack ovn-sb-db-server
-version: 23.03
+version: '23.09'
 
 base: ubuntu:22.04
 platforms:
@@ -11,7 +11,7 @@ platforms:
 
 package-repositories:
   - type: apt
-    cloud: antelope
+    cloud: bobcat
     priority: always
 
 parts:
