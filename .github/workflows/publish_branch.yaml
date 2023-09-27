@@ -78,7 +78,7 @@ jobs:
       - name: Import and push to github package
         run: |
           rock_file="${{ steps.rockcraft.outputs.rock }}"
-          rockname=$(echo $rock_file | cut -d"_" -f1)
+          rockname=$(echo $rock_file | cut -d"/" -f2)
           image_name="$(yq '.name' rocks/$rockname/rockcraft.yaml)"
           version="$(yq '.version' rocks/$rockname/rockcraft.yaml)"
           sudo skopeo \
