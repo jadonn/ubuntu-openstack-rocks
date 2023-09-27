@@ -75,9 +75,6 @@ jobs:
       - name: Install yq
         run: |
           sudo snap install yq
-      - uses: actions/download-artifact@v3
-        with:
-          name: rock
       - name: Import and push to github package
         run: |
           rock_file="${{ steps.rockcraft.outputs.rock }}"
