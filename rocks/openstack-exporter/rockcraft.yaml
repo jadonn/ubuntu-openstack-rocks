@@ -20,6 +20,6 @@ parts:
     source-depth: 1
     build-environment:
       - CGO_ENABLED: "0"
-      - GOFLAGS: "-mod=readonly"
+      - GOFLAGS: -mod=readonly -ldflags=-s
     build-snaps:
       - go/1.21/stable
