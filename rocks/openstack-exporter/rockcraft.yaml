@@ -1,0 +1,25 @@
+name: openstack-exporter
+summary: Openstack openstack-exporter
+license: Apache-2.0
+description: |
+  Ubuntu distribution of openstack-exporter, a prometheus exporter for OpenStack
+version: 1.6.0-7533071
+
+base: bare
+build_base: ubuntu:22.04
+run-user: _daemon_
+platforms:
+  amd64:
+
+parts:
+  openstack-exporter:
+    plugin: go
+    source: https://github.com/openstack-exporter/openstack-exporter
+    source-commit: 75330710394ae0afbecdd9c06f87f81bb592d90e
+    source-type: git
+    source-depth: 1
+    build-environment:
+      - CGO_ENABLED: "0"
+      - GOFLAGS: -mod=readonly -ldflags=-s
+    build-snaps:
+      - go/1.21/stable
