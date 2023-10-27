@@ -5,7 +5,7 @@ description: |
   Ubuntu distribution of OpenStack magnum-conductor
 version: "2023.2"
 # renovate: base: ubuntu:22.04@sha256:deadbeefcec90b11d2869e00fe1f2380c21cbfcd799ee35df8bd7ac09e6f63ea
-base: ubuntu:22.04
+base: ubuntu@22.04
 platforms:
   amd64:
 

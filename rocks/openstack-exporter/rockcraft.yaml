@@ -7,7 +7,7 @@ version: 1.6.0-7533071
 
 base: bare
 # renovate: build-base: ubuntu:22.04@sha256:deadbeefcec90b11d2869e00fe1f2380c21cbfcd799ee35df8bd7ac09e6f63ea
-build_base: ubuntu:22.04
+build_base: ubuntu@22.04
 run-user: _daemon_
 platforms:
   amd64:
