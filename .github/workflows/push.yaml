@@ -7,9 +7,12 @@ on:
       - stable/2023.1
 
 jobs:
-  build:
-    uses: ./.github/workflows/build.yaml
+  modified_rocks:
+    uses: ./.github/workflows/modified_rocks.yaml
 
-  publish:
-    needs: build
-    uses: ./.github/workflows/publish.yaml
+  build-and-publish:
+    needs: modified_rocks
+    uses: ./.github/workflows/build_publish.yaml
+    with:
+      rocks: ${{ needs.modified_rocks.outputs.rocks }}
+      publish: true
