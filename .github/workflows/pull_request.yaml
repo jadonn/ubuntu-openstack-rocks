@@ -4,5 +4,12 @@ on:
   pull_request:
 
 jobs:
-  build:
-    uses: ./.github/workflows/build.yaml
+  modified_rocks:
+    uses: ./.github/workflows/modified_rocks.yaml
+
+  build-and-publish:
+    needs: modified_rocks
+    uses: ./.github/workflows/build_publish.yaml
+    with:
+      rocks: ${{ needs.modified_rocks.outputs.rocks }}
+      publish: false

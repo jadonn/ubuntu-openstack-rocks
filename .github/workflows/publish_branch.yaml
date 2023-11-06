@@ -48,43 +48,7 @@ jobs:
           echo "rocks=$all_rocks" >> $GITHUB_OUTPUT
   build-and-publish:
     needs: allrocks
-    if: ${{ needs.allrocks.outputs.rocks != '[]' }}
-    strategy:
-      fail-fast: false
-      matrix:
-        rock: ${{ fromJson(needs.allrocks.outputs.rocks) }}
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ inputs.branch }}
-      - name: Log in to the Container registry
-        uses: docker/login-action@40891eba8c2bcd1309b07ba8b11232f313e86779
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: canonical/craft-actions/rockcraft-pack@main
-        id: rockcraft
-        with:
-          path: rocks/${{ matrix.rock }}
-      - name: Install skopeo
-        run: |
-          sudo snap install --devmode --channel edge skopeo
-      - name: Install yq
-        run: |
-          sudo snap install yq
-      - name: Import and push to github package
-        run: |
-          rock_file="${{ steps.rockcraft.outputs.rock }}"
-          rockname=$(echo $rock_file | cut -d"/" -f2)
-          image_name="$(yq '.name' rocks/$rockname/rockcraft.yaml)"
-          version="$(yq '.version' rocks/$rockname/rockcraft.yaml)"
-          sudo skopeo \
-            --insecure-policy \
-            copy \
-            oci-archive:"${rock_file}" \
-            docker-daemon:"ghcr.io/canonical/${image_name}:${version}"
-          echo "Publishing rock ${image_name}:${version}"
-          docker push ghcr.io/canonical/${image_name}:${version}
+    uses: ./.github/workflows/build_publish.yaml
+    with:
+      rocks: ${{ needs.allrocks.outputs.rocks }}
+      publish: true
