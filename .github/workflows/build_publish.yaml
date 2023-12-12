@@ -16,6 +16,7 @@ on:
             description: Branch to build from
             required: true
             default: main
+            type: string
 
 jobs:
   build-and-publish:
