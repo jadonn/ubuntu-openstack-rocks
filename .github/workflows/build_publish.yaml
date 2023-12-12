@@ -14,7 +14,6 @@ on:
             type: boolean
         branch:
             description: Branch to build from
-            required: true
             default: main
             type: string
 
