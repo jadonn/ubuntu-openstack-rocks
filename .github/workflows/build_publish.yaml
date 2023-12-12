@@ -12,6 +12,10 @@ on:
             description: Publish rocks ?
             default: false
             type: boolean
+        branch:
+            description: Branch to build from
+            required: true
+            default: main
 
 jobs:
   build-and-publish:
@@ -24,6 +28,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
       - uses: canonical/craft-actions/rockcraft-pack@main
         id: rockcraft
         with:
