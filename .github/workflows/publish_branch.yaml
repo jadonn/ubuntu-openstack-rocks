@@ -51,4 +51,5 @@ jobs:
     uses: ./.github/workflows/build_publish.yaml
     with:
       rocks: ${{ needs.allrocks.outputs.rocks }}
+      branch: ${{ inputs.branch }}
       publish: true
