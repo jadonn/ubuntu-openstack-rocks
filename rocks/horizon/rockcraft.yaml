@@ -42,6 +42,7 @@ parts:
     overlay-packages:
       - sudo
       - openstack-dashboard
+      - python3-memcache
       - python3-designate-dashboard
       - python3-mysqldb
     override-prime: |
