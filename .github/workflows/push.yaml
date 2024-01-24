@@ -16,3 +16,4 @@ jobs:
     with:
       rocks: ${{ needs.modified_rocks.outputs.rocks }}
       publish: true
+      branch: ${{ github.ref }}
