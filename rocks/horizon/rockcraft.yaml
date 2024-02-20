@@ -82,12 +82,10 @@ parts:
         while read line; do
           enable_file=$CRAFT_STAGE/$ENABLED/$line
           available_file=$CRAFT_PRIME/$AVAILABLE/$line
-          [[ -f $enable_file ]] && mv $enable_file $available_file
-          [[ ! -f $available_file ]] && echo "File $available_file not found" && exit 1
+          [[ ! -f $enable_file ]] || mv $enable_file $available_file
+          [[ -f $available_file ]] || (echo "File $available_file not found" && exit 1)
         done < $CRAFT_STAGE/$AVAILABLE/$plugin_file
       done
-      # load bearing echo, do not remove
-      echo processed plugin files
 
   horizon-plugin:
     plugin: dump
