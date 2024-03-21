@@ -17,7 +17,7 @@ it will help ensure that all layers of the image are imported
 into docker (this is just the top layer).
 
 ```bash
-> skopeo --insecure-policy copy oci-archive:keystone_2023.2_amd64.rock docker-daemon:keystone:2023.2
+> skopeo --insecure-policy copy oci-archive:keystone_2024.1_amd64.rock docker-daemon:keystone:2024.1
 ```
 
 If you are interested in giving it a go in Microk8s, you can
@@ -25,8 +25,8 @@ export the image from your docker registry and then into the
 microk8s registry:
 
 ```bash
-> docker save keystone:2023.2 > ./keystone_2023.2.tar
-> microk8s ctr image import ./keystone_2023.2.tar
+> docker save keystone:2024.1 > ./keystone_2024.1.tar
+> microk8s ctr image import ./keystone_2024.1.tar
 # Try with sunbeam
-> juju attach-resource keystone keystone-image=keystone:2023.2
+> juju attach-resource keystone keystone-image=keystone:2024.1
 ```

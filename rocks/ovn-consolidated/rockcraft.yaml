@@ -12,7 +12,7 @@ platforms:
 
 package-repositories:
   - type: apt
-    cloud: bobcat
+    cloud: caracal
     priority: always
 
 parts:
