@@ -19,6 +19,8 @@ services:
   cinder-scheduler:
     override: replace
     command: cinder-scheduler --use-syslog
+    user: cinder
+    group: cinder
 
 parts:
   cinder-user:

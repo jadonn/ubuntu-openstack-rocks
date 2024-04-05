@@ -19,6 +19,8 @@ services:
   aodh-evaluator:
     override: replace
     command: aodh-evaluator
+    user: aodh
+    group: aodh
 
 parts:
   aodh-user:

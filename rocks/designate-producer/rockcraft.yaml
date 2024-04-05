@@ -19,6 +19,8 @@ services:
   designate-producer:
     override: replace
     command: designate-producer
+    user: designate
+    group: designate
 
 parts:
   designate-user:

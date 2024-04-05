@@ -20,6 +20,8 @@ services:
   magnum-conductor:
     override: replace
     command: magnum-conductor
+    user: magnum
+    group: magnum
 
 parts:
   magnum-user:

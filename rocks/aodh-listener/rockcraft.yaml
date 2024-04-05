@@ -19,6 +19,8 @@ services:
   aodh-listener:
     override: replace
     command: aodh-listener
+    user: aodh
+    group: aodh
 
 parts:
   aodh-user:

@@ -19,6 +19,8 @@ services:
   octavia-driver-agent:
     override: replace
     command: octavia-driver-agent
+    user: octavia
+    group: octavia
 
 parts:
   octavia-user:

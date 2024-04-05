@@ -19,6 +19,8 @@ services:
   neutron-server:
     override: replace
     command: neutron-server
+    user: neutron
+    group: neutron
 
 parts:
   neutron-user:

@@ -19,6 +19,8 @@ services:
   designate-mdns:
     override: replace
     command: designate-mdns
+    user: designate
+    group: designate
 
 parts:
   designate-user:
