@@ -19,6 +19,8 @@ services:
   heat-engine:
     override: replace
     command: /usr/bin/heat-engine
+    user: heat
+    group: heat
 
 parts:
   heat-user:

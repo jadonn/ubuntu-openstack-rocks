@@ -19,6 +19,8 @@ services:
   ceilometer-central:
     override: replace
     command: ceilometer-polling --polling-namespaces central
+    user: ceilometer
+    group: ceilometer
 
 parts:
   ceilometer-user:

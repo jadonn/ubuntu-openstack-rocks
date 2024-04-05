@@ -19,6 +19,8 @@ services:
   aodh-expirer:
     override: replace
     command: aodh-expirer
+    user: aodh
+    group: aodh
 
 parts:
   aodh-user:

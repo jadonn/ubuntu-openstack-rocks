@@ -19,6 +19,8 @@ services:
   octavia-housekeeping:
     override: replace
     command: octavia-housekeeping
+    user: octavia
+    group: octavia
 
 parts:
   octavia-user:

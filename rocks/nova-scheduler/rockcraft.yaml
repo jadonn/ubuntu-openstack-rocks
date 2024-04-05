@@ -19,6 +19,8 @@ services:
   nova-scheduler:
     override: replace
     command: nova-scheduler
+    user: nova
+    group: nova
 
 parts:
   nova-user:

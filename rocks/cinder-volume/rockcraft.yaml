@@ -19,6 +19,8 @@ services:
   cinder-volume:
     override: replace
     command: cinder-volume --use-syslog
+    user: cinder
+    group: cinder
 
 parts:
   cinder-user:

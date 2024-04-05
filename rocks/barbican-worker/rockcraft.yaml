@@ -18,6 +18,8 @@ services:
   barbican-worker:
     override: replace
     command: barbican-worker
+    user: barbican
+    group: barbican
 
 parts:
   barbican-user:

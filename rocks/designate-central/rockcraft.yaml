@@ -19,6 +19,8 @@ services:
   designate-central:
     override: replace
     command: designate-central
+    user: designate
+    group: designate
 
 parts:
   designate-user:

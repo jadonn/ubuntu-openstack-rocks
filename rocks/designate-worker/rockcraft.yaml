@@ -19,6 +19,8 @@ services:
   designate-worker:
     override: replace
     command: designate-worker
+    user: designate
+    group: designate
 
 parts:
   designate-user:

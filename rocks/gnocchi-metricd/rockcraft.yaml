@@ -19,6 +19,8 @@ services:
   gnocchi-metricd:
     override: replace
     command: gnocchi-metricd
+    user: gnocchi
+    group: gnocchi
 
 parts:
   gnocchi-user:

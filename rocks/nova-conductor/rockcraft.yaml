@@ -19,6 +19,8 @@ services:
   nova-conductor:
     override: replace
     command: nova-conductor
+    user: nova
+    group: nova
 
 parts:
   nova-user:

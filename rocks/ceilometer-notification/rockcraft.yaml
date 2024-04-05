@@ -18,7 +18,9 @@ package-repositories:
 services:
   ceilometer-notification:
     override: replace
-    command: ceilometer-agent-notification 
+    command: ceilometer-agent-notification
+    user: ceilometer
+    group: ceilometer
 
 parts:
   ceilometer-user:

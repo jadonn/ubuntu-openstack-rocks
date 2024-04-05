@@ -19,6 +19,8 @@ services:
   glance-api:
     override: replace
     command: /usr/bin/glance-api --config-file /etc/glance/glance-api.conf
+    user: glance
+    group: glance
   "apache forwarder":
     override: replace
     command: /usr/sbin/apache2ctl -DFOREGROUND

@@ -19,6 +19,8 @@ services:
   aodh-notifier:
     override: replace
     command: aodh-notifier
+    user: aodh
+    group: aodh
 
 parts:
   aodh-user:
