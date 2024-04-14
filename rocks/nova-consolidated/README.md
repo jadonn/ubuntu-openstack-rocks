@@ -31,4 +31,5 @@ microk8s registry:
 > juju attach-resource nova-k8s nova-api-image=nova-consolidated:2024.1
 > juju attach-resource nova-k8s nova-scheduler-image=nova-consolidated:2024.1
 > juju attach-resource nova-k8s nova-conductor-image=nova-consolidated:2024.1
+> juju attach-resource nova-k8s nova-spiceproxy-image=nova-consolidated:2024.1
 ```
