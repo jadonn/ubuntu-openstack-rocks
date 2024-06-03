@@ -23,4 +23,12 @@ parts:
       - CGO_ENABLED: "0"
       - GOFLAGS: -mod=readonly -ldflags=-s
     build-snaps:
-      - go/1.21/stable
+      - go/1.22/stable
+    override-prime: |
+      craftctl default
+      folders=(/etc/os-exporter /usr/local/share/ca-certificates)
+      for folder in "${folders[@]}"; do
+        mkdir -p $CRAFT_PRIME/$folder
+        chown 584792:584792 $CRAFT_PRIME/$folder
+        chmod 750 $CRAFT_PRIME/$folder
+      done
