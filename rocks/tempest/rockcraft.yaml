@@ -46,3 +46,4 @@ parts:
     stage-packages:
     - cron
     - python3-venv # this is required for python plugin
+    - iputils-ping
