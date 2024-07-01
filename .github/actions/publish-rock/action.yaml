@@ -14,14 +14,16 @@ runs:
   using: composite
   steps:
     - name: Log in to the Container registry
-      uses: docker/login-action@v3.1.0
+      uses: docker/login-action@v3.2.0
       with:
         registry: ghcr.io
         username: ${{ inputs.username }}
         password: ${{ inputs.password }}
     - name: Install skopeo
       shell: bash
-      run: sudo snap install --devmode --channel edge skopeo
+      run: |
+        sudo apt update
+        sudo apt install -y skopeo
     - name: Install yq
       shell: bash
       run: sudo snap install yq
