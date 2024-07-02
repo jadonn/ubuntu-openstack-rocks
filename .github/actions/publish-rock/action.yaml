@@ -24,7 +24,7 @@ runs:
     - name: Log in to the Container registry
       shell: bash
       run: |
-        skopeo login ghcr.io --username "${{ inputs.username }}"" --password "${{ inputs.password }}"
+        skopeo login ghcr.io --username "${{ inputs.username }}" --password "${{ inputs.password }}"
     - name: Import and push to github package
       shell: bash
       run: |
