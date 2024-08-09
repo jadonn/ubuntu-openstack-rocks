@@ -47,3 +47,9 @@ parts:
     - cron
     - python3-venv # this is required for python plugin
     - iputils-ping
+    override-prime: |
+      craftctl default
+
+      # set suid to utilties
+      # Without this tempest user can execute ping but exits with returncode 2
+      chmod u+s $CRAFT_PRIME/bin/ping
