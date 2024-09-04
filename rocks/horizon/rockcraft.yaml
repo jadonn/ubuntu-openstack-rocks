@@ -49,6 +49,7 @@ parts:
       - python3-heat-dashboard
       - python3-magnum-ui
       - python3-octavia-dashboard
+      - python3-watcher-dashboard
     override-stage: |
       craftctl default
       echo > $CRAFT_STAGE/etc/apache2/ports.conf
@@ -67,6 +68,13 @@ parts:
       _1630_project_resource_types_panel.py
       _1640_project_template_versions_panel.py
       _1650_project_template_generator_panel.py" > $CRAFT_STAGE/$AVAILABLE/heat
+      echo "_31000_goals_panel.py
+      _31010_strategies_panel.py
+      _31020_watcher_panelgroup.py
+      _31030_audit_templates_panel.py
+      _31040_audits_panel.py
+      _31050_action_plans_panel.py
+      _31060_actions_panel.py" > $CRAFT_STAGE/$AVAILABLE/watcher
     override-prime: |
       craftctl default
 
