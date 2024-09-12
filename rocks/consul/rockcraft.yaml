@@ -1,0 +1,46 @@
+name: consul
+summary: Hashicorp Consul
+license: Apache-2.0
+description: |
+  Ubuntu distribution of Hashicorp Consul
+version: '2024.1'
+
+# renovate: base: ubuntu:22.04@sha256:1b8d8ff4777f36f19bfe73ee4df61e3a0b789caeff29caa019539ec7c9a57f95
+base: ubuntu@22.04
+platforms:
+  amd64:
+
+package-repositories:
+  - type: apt
+    cloud: caracal
+    priority: always
+
+services:
+  consul:
+    override: replace
+    command: /usr/local/bin/consul agent -dev
+
+parts:
+  build-consul:
+    plugin: nil
+    source-type: git
+    source: https://github.com/hashicorp/consul
+    source-tag: v1.19.2
+    source-depth: 1
+    
+    build-packages:
+      - make
+    
+    build-snaps:
+      - go/1.22/stable
+
+    override-build: |
+      set -eux
+
+      cd $CRAFT_PART_SRC
+
+      make
+      
+      mkdir -p $CRAFT_PART_INSTALL/usr/local/bin
+      cp ./bin/consul $CRAFT_PART_INSTALL/usr/local/bin/consul
+
