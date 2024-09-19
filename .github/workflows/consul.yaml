@@ -19,6 +19,7 @@ jobs:
       - name: Install Docker
         uses: docker/setup-buildx-action@v3
       - name: Upload Consul Rock to Docker image registry
+        working-directory: ./rocks/consul/
         run: |
           sudo rockcraft.skopeo --insecure-policy \
           copy oci-archive:consul_v1.19.2_amd64.rock \
