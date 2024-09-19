@@ -1,4 +1,4 @@
-name: Validate Consul
+name: Consul jobs
 
 on:
   workflow_dispatch:
