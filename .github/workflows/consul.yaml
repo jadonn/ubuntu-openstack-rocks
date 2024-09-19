@@ -21,8 +21,8 @@ jobs:
       - name: Upload Consul Rock to Docker image registry
         run: |
           sudo rockcraft.skopeo --insecure-policy \
-          copy oci-archive:consul_v1.19.2_\
-          amd64.rock docker-daemon:consul:v1.19.2
+          copy oci-archive:consul_v1.19.2_amd64.rock \
+          docker-daemon:consul:v1.19.2
       - name: Start Consul container
         run: |
           docker run --name consul -p 8500:8500 -d consul:v1.19.2 exec consul agent -dev -client=0.0.0.0
