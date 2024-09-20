@@ -29,6 +29,7 @@ jobs:
           docker run --name consul -p 8500:8500 -d consul:v1.19.2 exec consul agent -dev -client=0.0.0.0
       - name: Query Consul API
         run: |
+          sleep 60
           if [[ "$(curl -k -s -o /dev/null -w "%{http_code}" http://localhost:8500/v1/agent/self)" != "200" ]]
           then
             exit 1
