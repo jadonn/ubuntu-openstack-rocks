@@ -33,13 +33,12 @@ jobs:
           name: consul-rock
       - name: Install Skopeo
         run: |
-          sudo apt-get -y update
-          sudo apt-get -y install skopeo
+          sudo snap install rockcraft --classic
       - name: Install Docker
         uses: docker/setup-buildx-action@v3
       - name: Upload Consul Rock to Docker image registry
         run: |
-          sudo skopeo --insecure-policy \
+          sudo rockcraft.skopeo --insecure-policy \
           copy oci-archive:consul_v1.19.2_amd64.rock \
           docker-daemon:consul:v1.19.2
       - name: Start Consul container
